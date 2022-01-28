@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Micro Shopping Cart</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+    <!-- DataTables CSS -->
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css" />
+
+<script src="https://code.jquery.com/jquery-3.0.0.js" integrity="sha256-jrPLZ+8vDxt2FnE1zvZXCkCcebI/C8Dt5xyaQBjxQIo=" crossorigin="anonymous"></script>
+<!-- DataTables -->
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+
+
+<link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css" />
+
+<script src="https://cdn.datatables.net/buttons/1.5.1/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.flash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.print.min.js"></script>
+
+</head>
+
+<body>
+    <ul>
+        <li><a class="active" href="#home">Micro Shopping Cart</a></li>
+    </ul>
+    <div id="products">
+        <div id="product">
+            <div>
+                <img src='images/crayons.jpg' style="width:200px;height:200px;">
+                <p>Crayons</p>
+                <p>Product from Faber Castell</p>
+                <p>Cost: &#x20b9; 100</p>
+                <div style="display:flex;justify-content: center;">
+                Quantity : <button onclick="decrement('crayons')">-</button>
+                    <p id="crayons">0</p>
+                    <button onclick="increment('crayons')">+</button>
+                </div>
+                <button onclick="addToCart('crayons')">Add to Cart</button>
+            </div>
+        </div>
+        <div id="product">
+            <div>
+                <img src='images/babyclothes.jpeg' style="width:200px;height:200px;">
+                <p>Baby clothes</p>
+                <p>Product from H&M</p>
+                <p>Cost: &#x20b9; 500</p>
+                <div style="display:flex;justify-content: center;">
+                    Quantity : <button onclick="decrement('babyclothes')">-</button>
+                        <p id="babyclothes">0</p>
+                        <button onclick="increment('babyclothes')">+</button>
+                    </div>
+                <button onclick="addToCart('babyclothes')">Add to Cart</button>
+            </div>
+        </div>
+        <div id="product">
+            <div>
+                <img src='images/teddy.jpg' style="width:200px;height:200px;">
+                <p>Teddy bear</p>
+                <p>Product from ToyShop</p>
+                <p>Cost: &#x20b9; 500</p>
+                <div style="display:flex;justify-content: center;">
+                    Quantity : <button onclick="decrement('teddy')">-</button>
+                        <p id="teddy">0</p>
+                        <button onclick="increment('teddy')">+</button>
+                    </div>
+                <button onclick="addToCart('teddy')">Add to Cart</button>
+            </div>
+        </div>
+        <div id="product">
+            <div>
+                <img src='images/pencilbox.jpeg' style="width:200px;height:200px;">
+                <p>Pencil box</p>
+                <p>Product from Apsara</p>
+                <p>Cost: &#x20b9; 30</p>
+                <div style="display:flex;justify-content: center;">
+                    Quantity : <button onclick="decrement('pencilbox')">-</button>
+                        <p id="pencilbox">0</p>
+                        <button onclick="increment('pencilbox')">+</button>
+                    </div>
+                <button onclick="addToCart('pencilbox')">Add to Cart</button>
+            </div>
+        </div>
+    </div>
+    <div id="cart" style="margin-top: 20px;">
+        <table id="table1" class="display nowrap" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Amount</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+               
+            </tbody>
+        </table>
+    </div>
+    <div style="float: right;">
+<h3 id="total">Total amount: &#x20b9; 0</h3>
+    </div>
+</body>
+<script>
+    $(document).ready( function () {
+    $('#table1').DataTable({
+        dom: 'Bfrtip',
+        buttons: [{
+   extend: 'pdfHtml5',
+   text: "Print Bill",
+   messageBottom: function(){
+      return $("#total").text();
+    },
+    attr:  {
+        id: 'print'
+    },
+   footer: true,
+   customize: function ( doc ) {
+      //console.log(doc.content)
+      doc.styles.message.alignment = "right"
+      doc.content[1].table.widths = 
+        Array(doc.content[1].table.body[0].length + 1).join('*').split('');
+    }
+
+   
+}
+        ]
+    } );
+    document.getElementsByClassName("dt-buttons").onload = myFunction();
+    document.getElementsByClassName("reset")[0].addEventListener('click',resetTable);
+
+    
+} );
+
+
+</script>
+<script src="index.js"></script>
+</html>
